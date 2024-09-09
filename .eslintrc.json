@@ -1,4 +1,5 @@
 {
+    "root": true,
     "extends": [
         "wix-editor/node",
         "plugin:eslint-plugin/recommended"

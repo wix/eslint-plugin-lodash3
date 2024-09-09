@@ -97,6 +97,14 @@ const testCases = {
                 "import {map} from 'lodash/fp'",
                 "import {map as fpMap} from 'lodash/fp'"
             ].map(fromModule)
+        },
+        'package-to-method': {
+            require: [
+                "import { map, fp } from 'lodash'" 
+            ], 
+            import: [
+                "import map from 'lodash/map'\nimport fp from 'lodash/fp'"
+            ].map(fromModule)
         }
     },
     invalid: {

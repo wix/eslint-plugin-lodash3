@@ -37,29 +37,29 @@ const allImportsAreOfType = (node, types) => every(node.specifiers, specifier =>
  * @returns 
  */
 const createFullFix = (context, node) => {
-    const sourceCode = context.getSourceCode();
-    const text = sourceCode.getText(node);
-    if ( !/.*(lodash)';$/.test(text) ) {
-      return () => [];
+    const sourceCode = context.getSourceCode()
+    const text = sourceCode.getText(node)
+    if (!/.*(lodash)';$/.test(text)) {
+        return () => []
     }
 
-    const regexp = new RegExp(/(\w+)/g);
-    const matches = text.match(regexp);
-    if ( !matches ) {
-      return () => [];
+    const regexp = new RegExp(/(\w+)/g)
+    const matches = text.match(regexp)
+    if (!matches) {
+        return () => []
     }
 
     const libs = matches.filter(match => !['import', 'from', 'lodash'].includes(match))
     if (!libs || libs.length < 1) {
-      return () => [];
+        return () => []
     }
 
     const imports = libs
         .sort()
         .map(lib => `import ${lib} from 'lodash/${lib}';`)
-        .join('\n');
+        .join('\n')
         
-    return (fixer) => [fixer.insertTextAfter(node, imports), fixer.remove(node)];
+    return fixer => [fixer.insertTextAfter(node, imports), fixer.remove(node)]
 }
 
 
@@ -71,7 +71,8 @@ module.exports = {
         },
         schema: [{
             enum: ['method', 'member', 'full', 'method-package']
-        }]
+        }],
+        fixable: 'code'
     },
 
     create(context) {
