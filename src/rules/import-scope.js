@@ -49,16 +49,15 @@ const createFullFix = (context, node) => {
       return () => [];
     }
 
-    const libs = matches
-    .filter( match => !['import', 'from', 'lodash'].includes(match))
+    const libs = matches.filter(match => !['import', 'from', 'lodash'].includes(match))
     if (!libs || libs.length < 1) {
       return () => [];
     }
 
     const imports = libs
-    .sort()
-    .map(lib => `import ${lib} from 'lodash/${lib}';`)
-    .join('\n');
+        .sort()
+        .map(lib => `import ${lib} from 'lodash/${lib}';`)
+        .join('\n');
         
     return (fixer) => [fixer.insertTextAfter(node, imports), fixer.remove(node)];
 }
